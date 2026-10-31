@@ -3,59 +3,131 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>Pinnacle | Real Estate</title>
+    <title>Café Aroma</title>
 
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet"
+          href="../styles/styles.css">
 </head>
 
 <body>
 
-    <!-- NAVEGACIÓN -->
-    <header class="header">
-        <a href="#" class="logo">◈ Pinnacle</a>
+    <!-- MENÚ SUPERIOR -->
+    <header class="cabecera" id="inicio">
 
-        <nav class="navigation">
-            <a href="#inicio">Home</a>
-            <a href="#nosotros">About Us</a>
-            <a href="#proyectos">Projects</a>
-            <a href="#servicios">Services</a>
-            <a href="#noticias">News</a>
+        <a href="#inicio" class="marca">
+            <span class="marca-icono">☕</span>
+            <span>Café <em>Aroma</em></span>
+        </a>
+
+        <nav class="navegacion">
+            <a href="#inicio" class="activo">Inicio</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#productos">Productos</a>
+            <a href="mailto:hola@ejemplo.com">Contacto</a>
         </nav>
 
-        <a href="#contacto" class="contact-button">Contact us</a>
+        <a href="#productos" class="boton-menu">
+            Explorar menú →
+        </a>
+
     </header>
 
-    <!-- PORTADA -->
     <main>
 
-        <section class="hero" id="inicio">
+        <!-- PORTADA -->
+        <section class="portada">
 
-            <div class="hero-content">
-
-                <span class="eyebrow">PREMIUM REAL ESTATE</span>
+            <div class="portada-texto">
 
                 <h1>
-                    Creating a Better
-                    Tomorrow, One
-                    Home at a Time
+                    Enjoy your coffee
+                    <br>
+                    with your own
+                    <br>
+                    <em>unique cafe</em>
                 </h1>
 
-                <p>
-                    We've built a reputation for delivering
-                    exceptional results and exceeding our
-                    clients' expectations. From luxurious
-                    residential homes to state-of-the-art
-                    commercial properties, our team of experts
-                    is dedicated to bringing your vision to life.
-                </p>
+                <a href="#productos"
+                   class="boton-principal">
+                    EXPLORE PRODUCT →
+                </a>
 
-                <div class="hero-buttons">
-                    <a href="#contacto" class="primary-button">
-                        Schedule a Call
-                    </a>
+            </div>
 
-                    <a href="#proyectos" class="secondary-button">
-                        View Our Projects
-                    
+            <div class="portada-imagen">
+                <img
+                    src="../assets/cafe-principal.png"
+                    alt="Taza de café espresso"
+                >
+            </div>
+
+        </section>
+
+        <!-- ESTADÍSTICAS -->
+        <section class="estadisticas" id="nosotros">
+
+            <div class="estadistica">
+                <strong>60+</strong>
+                <span>Coffee Variant</span>
+            </div>
+
+            <div class="estadistica">
+                <strong>10+</strong>
+                <span>Meeting room</span>
+            </div>
+
+            <div class="estadistica">
+                <strong>15+</strong>
+                <span>Event space</span>
+            </div>
+
+            <div class="estadistica">
+                <strong>20+</strong>
+                <span>Global Achievement</span>
+            </div>
+
+        </section>
+
+        <!-- GALERÍA DE CAFÉS -->
+        <section class="productos" id="productos">
+
+            <div class="galeria">
+
+                <figure class="tarjeta">
+                    <img src="../assets/cafe1.png"
+                         alt="Café cremoso">
+                </figure>
+
+                <figure class="tarjeta">
+                    <img src="../assets/cafe2.png"
+                         alt="Café con leche">
+                </figure>
+
+                <figure class="tarjeta">
+                    <img src="../assets/cafe3.png"
+                         alt="Café negro con hielo">
+                </figure>
+
+                <figure class="tarjeta">
+                    <img src="../assets/cafe4.png"
+                         alt="Capuchino">
+                </figure>
+
+                <figure class="tarjeta">
+                    <img src="../assets/cafe5.png"
+                         alt="Café clásico">
+                </figure>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
+
+
