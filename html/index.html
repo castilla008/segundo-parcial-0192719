@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,120 +9,221 @@
 
     <title>Café Aroma</title>
 
-    <link rel="stylesheet"
-          href="../styles/styles.css">
+    <style>
+        /* CONFIGURACIÓN GENERAL */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #050505;
+            color: white;
+            font-family: Georgia, serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ENCABEZADO */
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 7%;
+        }
+
+        header h1 {
+            color: #ce955f;
+            font-size: 32px;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* PORTADA */
+
+        .portada {
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .portada h2 {
+            font-size: clamp(38px, 5vw, 75px);
+            font-weight: normal;
+            line-height: 1.15;
+        }
+
+        .portada span {
+            color: #ce955f;
+            font-style: italic;
+        }
+
+        .boton {
+            display: inline-block;
+            margin-top: 35px;
+            padding: 20px 40px;
+            background-color: #75452a;
+            color: white;
+            border-radius: 35px;
+            text-decoration: none;
+        }
+
+        /* ESTADÍSTICAS */
+
+        .estadisticas {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            text-align: center;
+            gap: 15px;
+            padding: 40px 7%;
+        }
+
+        .estadisticas div {
+            border-right: 1px solid #ce955f;
+        }
+
+        .estadisticas div:last-child {
+            border-right: none;
+        }
+
+        .estadisticas h3 {
+            font-size: 55px;
+            font-weight: normal;
+        }
+
+        .estadisticas p {
+            font-size: 20px;
+        }
+
+        /* GALERÍA DE CAFÉS */
+
+        .productos {
+            padding: 40px 3% 80px;
+        }
+
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 16px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .tarjeta {
+            width: 100%;
+            aspect-ratio: 248 / 355;
+            overflow: hidden;
+            border-radius: 110px 0 110px 0;
+            background-color: #75452a;
+        }
+
+        .tarjeta img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .estadisticas {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .galeria {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tarjeta {
+                border-radius: 75px 0 75px 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- MENÚ SUPERIOR -->
-    <header class="cabecera" id="inicio">
+    <!-- MENÚ -->
+    <header>
+        <h1>☕ Café Aroma</h1>
 
-        <a href="#inicio" class="marca">
-            <span class="marca-icono">☕</span>
-            <span>Café <em>Aroma</em></span>
-        </a>
-
-        <nav class="navegacion">
-            <a href="#inicio" class="activo">Inicio</a>
-            <a href="#nosotros">Nosotros</a>
+        <nav>
+            <a href="#inicio">Inicio</a>
             <a href="#productos">Productos</a>
-            <a href="mailto:hola@ejemplo.com">Contacto</a>
         </nav>
-
-        <a href="#productos" class="boton-menu">
-            Explorar menú →
-        </a>
-
     </header>
 
     <main>
 
         <!-- PORTADA -->
-        <section class="portada">
+        <section class="portada" id="inicio">
 
-            <div class="portada-texto">
+            <h2>
+                Enjoy your coffee
+                <br>
+                with your own
+                <br>
+                <span>unique cafe</span>
+            </h2>
 
-                <h1>
-                    Enjoy your coffee
-                    <br>
-                    with your own
-                    <br>
-                    <em>unique cafe</em>
-                </h1>
-
-                <a href="#productos"
-                   class="boton-principal">
-                    EXPLORE PRODUCT →
-                </a>
-
-            </div>
-
-            <div class="portada-imagen">
-                <img
-                    src="../assets/cafe-principal.png"
-                    alt="Taza de café espresso"
-                >
-            </div>
+            <a href="#productos" class="boton">
+                EXPLORE PRODUCT →
+            </a>
 
         </section>
 
         <!-- ESTADÍSTICAS -->
-        <section class="estadisticas" id="nosotros">
+        <section class="estadisticas">
 
-            <div class="estadistica">
-                <strong>60+</strong>
-                <span>Coffee Variant</span>
+            <div>
+                <h3>60+</h3>
+                <p>Coffee Variant</p>
             </div>
 
-            <div class="estadistica">
-                <strong>10+</strong>
-                <span>Meeting room</span>
+            <div>
+                <h3>10+</h3>
+                <p>Meeting room</p>
             </div>
 
-            <div class="estadistica">
-                <strong>15+</strong>
-                <span>Event space</span>
+            <div>
+                <h3>15+</h3>
+                <p>Event space</p>
             </div>
 
-            <div class="estadistica">
-                <strong>20+</strong>
-                <span>Global Achievement</span>
+            <div>
+                <h3>20+</h3>
+                <p>Global Achievement</p>
             </div>
 
         </section>
 
-        <!-- GALERÍA DE CAFÉS -->
+        <!-- IMAGEN ORIGINAL DE FIGMA -->
         <section class="productos" id="productos">
 
-            <div class="galeria">
-
-                <figure class="tarjeta">
-                    <img src="../assets/cafe1.png"
-                         alt="Café cremoso">
-                </figure>
-
-                <figure class="tarjeta">
-                    <img src="../assets/cafe2.png"
-                         alt="Café con leche">
-                </figure>
-
-                <figure class="tarjeta">
-                    <img src="../assets/cafe3.png"
-                         alt="Café negro con hielo">
-                </figure>
-
-                <figure class="tarjeta">
-                    <img src="../assets/cafe4.png"
-                         alt="Capuchino">
-                </figure>
-
-                <figure class="tarjeta">
-                    <img src="../assets/cafe5.png"
-                         alt="Café clásico">
-                </figure>
-
-            </div>
+            <img
+                src="../assets/Place your Design.png"
+                alt="Galería de cinco cafés"
+                style="display:block; width:100%; height:auto;"
+            >
 
         </section>
 
@@ -129,5 +231,3 @@
 
 </body>
 </html>
-
-
