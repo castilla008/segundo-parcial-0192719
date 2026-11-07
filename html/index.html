@@ -1,108 +1,503 @@
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Café Aroma</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Castilla - Alta Cafetería</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            100: '#fef9e7',
+                            300: '#f3e5ab',
+                            400: '#e6ca65',
+                            500: '#d4af37',
+                            600: '#aa8c2c',
+                            700: '#806921',
+                        },
+                        obsidian: {
+                            900: '#0a0a0a',
+                            800: '#121212',
+                            700: '#1a1a1a',
+                            600: '#262626'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'Georgia', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* CONFIGURACIÓN GENERAL */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            background-color: #050505;
-            color: white;
-            font-family: Georgia, serif;
+            background-color: #0a0a0a;
+            color: #d4af37;
+            font-family: 'Cinzel', 'Times New Roman', serif;
         }
 
-        html {
-            scroll-behavior: smooth;
+        .gold-border-glow {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.12), inset 0 0 15px rgba(212, 175, 55, 0.05);
         }
 
-        /* ENCABEZADO */
+        .gold-border-glow:hover {
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.3), inset 0 0 20px rgba(212, 175, 55, 0.1);
+        }
 
-        header {
+        .tab-content {
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .tab-content.hidden-tab {
+            display: none !important;
+            opacity: 0;
+        }
+
+        .card-arch-shape {
+            border-top-left-radius: 90px;
+            border-bottom-right-radius: 90px;
+            border-top-right-radius: 16px;
+            border-bottom-left-radius: 16px;
+        }
+
+        /* Estilos del Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(6px);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 30px 7%;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
-        header h1 {
-            color: #ce955f;
-            font-size: 32px;
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        nav {
-            display: flex;
-            gap: 30px;
+        .modal-box {
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.3s ease;
         }
 
-        nav a {
-            color: white;
-            text-decoration: none;
+        .modal-overlay.active .modal-box {
+            transform: scale(1) translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold-500 selection:text-black">
+
+    <!-- Encabezado de Navegación -->
+    <header class="w-full border-b border-gold-500/20 bg-obsidian-900/95 backdrop-blur-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="logo cursor-pointer tracking-[0.25em] text-xl md:text-2xl font-light text-white flex items-center gap-2" onclick="switchTab('inicio')">
+                <svg class="w-7 h-7 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                    <path d="M6 1v3M10 1v3M14 1v3" stroke-linecap="round"/>
+                </svg>
+                <span>CAFÉ CASTILLA</span>
+            </div>
+
+            <ul class="flex flex-wrap justify-center gap-6 sm:gap-8 text-xs md:text-sm tracking-[0.2em] uppercase font-sans">
+                <li>
+                    <button id="nav-inicio" onclick="switchTab('inicio')" class="nav-btn text-gold-500 border-b-2 border-gold-500 pb-1 transition-all">Inicio</button>
+                </li>
+                <li>
+                    <button id="nav-carta" onclick="switchTab('carta')" class="nav-btn text-neutral-400 hover:text-gold-500 pb-1 transition-all">Carta</button>
+                </li>
+                <li>
+                    <button id="nav-nosotros" onclick="switchTab('nosotros')" class="nav-btn text-neutral-400 hover:text-gold-500 pb-1 transition-all">Nosotros</button>
+                </li>
+                <li>
+                    <button id="nav-contacto" onclick="switchTab('contacto')" class="nav-btn text-neutral-400 hover:text-gold-500 pb-1 transition-all">Contacto</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+        <!-- ================= VISTA: INICIO ================= -->
+        <div id="tab-inicio" class="tab-content flex flex-col items-center">
+            <!-- Sección Hero -->
+            <section class="w-full py-16 md:py-24 text-center rounded-3xl mb-8 bg-gradient-to-b from-gold-500/10 via-transparent to-transparent">
+                <span class="text-xs md:text-sm tracking-[0.4em] text-gold-500 uppercase font-sans mb-3 block">Experiencia Artesanal</span>
+                <h1 class="text-4xl md:text-6xl font-extralight tracking-[0.2em] uppercase text-white mb-4 leading-tight">
+                    Café Castilla
+                </h1>
+                <p class="text-gold-500 text-sm md:text-lg tracking-[0.3em] uppercase mb-6 font-medium">
+                    La Excelencia en Cada Gota
+                </p>
+                <p class="text-neutral-400 font-sans max-w-2xl mx-auto text-sm md:text-base leading-relaxed mb-10 px-4">
+                    Descubre una experiencia sensorial única con nuestra selección exclusiva de cafés de especialidad y repostería artesanal, 
+                    preparados para resaltar aromas elegantes y sabores inolvidables.
+                </p>
+                <button onclick="switchTab('carta')" class="px-8 py-3.5 border border-gold-500 text-gold-500 hover:bg-gold-500 hover:text-obsidian-900 text-xs md:text-sm tracking-[0.25em] uppercase font-sans rounded transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)]">
+                    Ver Carta Exclusiva
+                </button>
+            </section>
+
+            <!-- Sección Experiencia -->
+            <section class="w-full max-w-5xl bg-gradient-to-b from-obsidian-800 to-obsidian-900 border border-gold-500/30 rounded-2xl p-8 md:p-12 text-center gold-border-glow my-6">
+                <h2 class="text-xl md:text-2xl tracking-[0.25em] text-white font-light mb-4 uppercase">Nuestra Experiencia de Autor</h2>
+                <p class="text-neutral-400 font-sans text-sm md:text-base leading-relaxed max-w-3xl mx-auto mb-10">
+                    En <strong class="text-gold-500 font-normal">Café Castilla</strong> seleccionamos manualmente ingredientes 100% artesanales y de origen selecto. Ofrecemos un espacio sofisticado pensado para quienes aprecian la alta gastronomía, el diseño elegante y el auténtico sabor gourmet.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 border-t border-gold-500/15">
+                    <div class="p-4">
+                        <div class="w-12 h-12 mx-auto mb-3 text-gold-500 flex items-center justify-center">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v18m9-9H3"/></svg>
+                        </div>
+                        <h4 class="text-gold-500 text-xs md:text-sm tracking-[0.2em] uppercase font-semibold mb-1">Granos Seleccionados</h4>
+                        <p class="text-neutral-500 font-sans text-xs">Cosecha 100% de origen artesanal</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="w-12 h-12 mx-auto mb-3 text-gold-500 flex items-center justify-center">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        </div>
+                        <h4 class="text-gold-500 text-xs md:text-sm tracking-[0.2em] uppercase font-semibold mb-1">Baristas de Élite</h4>
+                        <p class="text-neutral-500 font-sans text-xs">Preparación precisa y personalizada</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="w-12 h-12 mx-auto mb-3 text-gold-500 flex items-center justify-center">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                        </div>
+                        <h4 class="text-gold-500 text-xs md:text-sm tracking-[0.2em] uppercase font-semibold mb-1">Ambiente Exclusivo</h4>
+                        <p class="text-neutral-500 font-sans text-xs">Espacios diseñados para tu confort</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA: CARTA ================= -->
+        <div id="tab-carta" class="tab-content hidden-tab flex flex-col items-center">
+            <div class="text-center my-6">
+                <span class="text-xs tracking-[0.4em] text-gold-500 uppercase font-sans mb-2 block">Nuestra Colección</span>
+                <h2 class="text-3xl md:text-4xl tracking-[0.25em] text-white font-light uppercase">Carta Café Castilla</h2>
+                <div class="w-24 h-0.5 bg-gold-500/40 mx-auto mt-4"></div>
+            </div>
+
+            <!-- Grid de Tarjetas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 w-full py-6">
+                
+                <!-- Tarjeta 1: Café Dalgona -->
+                <div onclick="openCoffeeModal('dalgona')" class="cursor-pointer bg-gradient-to-b from-obsidian-800 to-obsidian-900 border border-gold-500/30 rounded-2xl p-4 text-center gold-border-glow transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group">
+                    <div>
+                        <div class="card-arch-shape w-full h-56 overflow-hidden border border-gold-500/20 bg-neutral-900 relative">
+                            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500" 
+                                 alt="Café Dalgona" 
+                                 class="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x500/121212/d4af37?text=CAFÉ+DALGONA';">
+                        </div>
+                        <div class="mt-5">
+                            <span class="block text-[10px] text-neutral-500 tracking-[0.2em] font-sans font-semibold mb-1">SELECCIÓN 01</span>
+                            <h3 class="text-sm tracking-[0.2em] text-neutral-100 font-medium">CAFÉ DALGONA</h3>
+                            <p class="text-xs font-sans text-neutral-400 mt-2">Crema batida de café sobre leche fresca helada.</p>
+                            <span class="inline-block mt-3 text-[11px] font-sans text-gold-500 underline underline-offset-4 group-hover:text-gold-300">Ver Ingredientes ✦</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gold-500/10 flex justify-between items-center px-1">
+                        <span class="text-gold-500 text-sm font-sans font-semibold">$5.50</span>
+                        <span class="text-[10px] font-sans text-neutral-500 uppercase">Frío</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2: Sándwich Artesanal (ACTUALIZADO) -->
+                <div onclick="openCoffeeModal('sandwich-artesanal')" class="cursor-pointer bg-gradient-to-b from-obsidian-800 to-obsidian-900 border border-gold-500/30 rounded-2xl p-4 text-center gold-border-glow transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group">
+                    <div>
+                        <div class="card-arch-shape w-full h-56 overflow-hidden border border-gold-500/20 bg-neutral-900 relative">
+                            <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" 
+                                 alt="Sándwich Artesanal" 
+                                 class="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x500/121212/d4af37?text=SÁNDWICH+ARTESANAL';">
+                        </div>
+                        <div class="mt-5">
+                            <span class="block text-[10px] text-neutral-500 tracking-[0.2em] font-sans font-semibold mb-1">SELECCIÓN 02</span>
+                            <h3 class="text-sm tracking-[0.2em] text-neutral-100 font-medium">SÁNDWICH ARTESANAL</h3>
+                            <p class="text-xs font-sans text-neutral-400 mt-2">Pan ciabatta tostado con jamón madurado, queso fundido y vegetales frescos.</p>
+                            <span class="inline-block mt-3 text-[11px] font-sans text-gold-500 underline underline-offset-4 group-hover:text-gold-300">Ver Ingredientes ✦</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gold-500/10 flex justify-between items-center px-1">
+                        <span class="text-gold-500 text-sm font-sans font-semibold">$5.00</span>
+                        <span class="text-[10px] font-sans text-neutral-500 uppercase">Caliente</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3: Americano Helado -->
+                <div onclick="openCoffeeModal('americano-helado')" class="cursor-pointer bg-gradient-to-b from-obsidian-800 to-obsidian-900 border border-gold-500/30 rounded-2xl p-4 text-center gold-border-glow transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group">
+                    <div>
+                        <div class="card-arch-shape w-full h-56 overflow-hidden border border-gold-500/20 bg-neutral-900 relative">
+                            <img src="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=500" 
+                                 alt="Americano Helado" 
+                                 class="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x500/121212/d4af37?text=AMERICANO+HELADO';">
+                        </div>
+                        <div class="mt-5">
+                            <span class="block text-[10px] text-neutral-500 tracking-[0.2em] font-sans font-semibold mb-1">SELECCIÓN 03</span>
+                            <h3 class="text-sm tracking-[0.2em] text-neutral-100 font-medium">AMERICANO HELADO</h3>
+                            <p class="text-xs font-sans text-neutral-400 mt-2">Extracción intensa de espresso con agua purificada helada.</p>
+                            <span class="inline-block mt-3 text-[11px] font-sans text-gold-500 underline underline-offset-4 group-hover:text-gold-300">Ver Ingredientes ✦</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gold-500/10 flex justify-between items-center px-1">
+                        <span class="text-gold-500 text-sm font-sans font-semibold">$4.50</span>
+                        <span class="text-[10px] font-sans text-neutral-500 uppercase">Frío</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4: Café Con Leche (Latte) -->
+                <div onclick="openCoffeeModal('cafe-con-leche')" class="cursor-pointer bg-gradient-to-b from-obsidian-800 to-obsidian-900 border border-gold-500/30 rounded-2xl p-4 text-center gold-border-glow transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group">
+                    <div>
+                        <div class="card-arch-shape w-full h-56 overflow-hidden border border-gold-500/20 bg-neutral-900 relative">
+                            <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?w=500" 
+                                 alt="Café Con Leche" 
+                                 class="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x500/121212/d4af37?text=CAFÉ+CON+LECHE';">
+                        </div>
+                        <div class="mt-5">
+                            <span class="block text-[10px] text-neutral-500 tracking-[0.2em] font-sans font-semibold mb-1">SELECCIÓN 04</span>
+                            <h3 class="text-sm tracking-[0.2em] text-neutral-100 font-medium">CAFÉ CON LECHE</h3>
+                            <p class="text-xs font-sans text-neutral-400 mt-2">Leche texturizada sedosa sobre café espresso de autor.</p>
+                            <span class="inline-block mt-3 text-[11px] font-sans text-gold-500 underline underline-offset-4 group-hover:text-gold-300">Ver Ingredientes ✦</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gold-500/10 flex justify-between items-center px-1">
+                        <span class="text-gold-500 text-sm font-sans font-semibold">$4.80</span>
+                        <span class="text-[10px] font-sans text-neutral-500 uppercase">Caliente</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 5: Capuchino -->
+                <div onclick="openCoffeeModal('capuchino')" class="cursor-pointer bg-gradient-to-b from-obsidian-800 to-obsidian-900 border border-gold-500/30 rounded-2xl p-4 text-center gold-border-glow transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group">
+                    <div>
+                        <div class="card-arch-shape w-full h-56 overflow-hidden border border-gold-500/20 bg-neutral-900 relative">
+                            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=500" 
+                                 alt="Capuchino" 
+                                 class="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/400x500/121212/d4af37?text=CAPUCHINO';">
+                        </div>
+                        <div class="mt-5">
+                            <span class="block text-[10px] text-neutral-500 tracking-[0.2em] font-sans font-semibold mb-1">SELECCIÓN 05</span>
+                            <h3 class="text-sm tracking-[0.2em] text-neutral-100 font-medium">CAPUCHINO</h3>
+                            <p class="text-xs font-sans text-neutral-400 mt-2">Equilibrio perfecto de espresso, leche y espuma densa.</p>
+                            <span class="inline-block mt-3 text-[11px] font-sans text-gold-500 underline underline-offset-4 group-hover:text-gold-300">Ver Ingredientes ✦</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gold-500/10 flex justify-between items-center px-1">
+                        <span class="text-gold-500 text-sm font-sans font-semibold">$5.20</span>
+                        <span class="text-[10px] font-sans text-neutral-500 uppercase">Caliente</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= VISTA: NOSOTROS ================= -->
+        <div id="tab-nosotros" class="tab-content hidden-tab flex flex-col items-center">
+            <div class="text-center my-6">
+                <span class="text-xs tracking-[0.4em] text-gold-500 uppercase font-sans mb-2 block">Tradición & Pasión</span>
+                <h2 class="text-3xl md:text-4xl tracking-[0.25em] text-white font-light uppercase">Sobre Café Castilla</h2>
+                <div class="w-24 h-0.5 bg-gold-500/40 mx-auto mt-4"></div>
+            </div>
+
+            <div class="max-w-4xl bg-obsidian-800 border border-gold-500/30 rounded-2xl p-8 md:p-12 text-center my-6 font-sans gold-border-glow">
+                <p class="text-neutral-300 leading-relaxed text-base md:text-lg mb-6">
+                    Fundado bajo el precepto de la sofisticación gastronómica, Café Castilla combina variedades botánicas selectas provenientes de fincas de alta montaña con procesos de tueste controlado.
+                </p>
+                <p class="text-neutral-400 leading-relaxed text-sm md:text-base mb-8">
+                    Cada preparación servida refleja nuestro compromiso con la artesanía culinaria y barística, garantizando ingredientes frescos y un servicio de excelencia.
+                </p>
+                <div class="inline-block p-4 border border-gold-500/30 rounded-lg bg-obsidian-900">
+                    <span class="block text-gold-500 font-serif text-lg">Horario de Atención</span>
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest">Lunes a Domingo — 08:00 A.M. a 10:00 P.M.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VISTA: CONTACTO ================= -->
+        <div id="tab-contacto" class="tab-content hidden-tab flex flex-col items-center">
+            <div class="text-center my-6">
+                <span class="text-xs tracking-[0.4em] text-gold-500 uppercase font-sans mb-2 block">Ubicación & Reservas</span>
+                <h2 class="text-3xl md:text-4xl tracking-[0.25em] text-white font-light uppercase">Contacto Exclusivo</h2>
+                <div class="w-24 h-0.5 bg-gold-500/40 mx-auto mt-4"></div>
+            </div>
+
+            <div class="max-w-xl w-full bg-obsidian-800 border border-gold-500/30 rounded-2xl p-8 text-center my-6 font-sans gold-border-glow">
+                <div class="space-y-6 text-sm text-neutral-300">
+                    <div>
+                        <h4 class="text-gold-500 font-serif text-base tracking-widest uppercase mb-1">Dirección</h4>
+                        <p>Av. Principal Castilla #45, Zona Gourmet</p>
+                    </div>
+                    <div>
+                        <h4 class="text-gold-500 font-serif text-base tracking-widest uppercase mb-1">Teléfono & Reservas</h4>
+                        <p class="text-neutral-400">+57 (601) 555-0192</p>
+                    </div>
+                    <div>
+                        <h4 class="text-gold-500 font-serif text-base tracking-widest uppercase mb-1">Correo Electrónico</h4>
+                        <p class="text-neutral-400">contacto@cafecastilla.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal Emergente de Ingredientes -->
+    <div id="modal-coffee" class="modal-overlay px-4" onclick="closeCoffeeModalOnOuter(event)">
+        <div class="modal-box bg-gradient-to-b from-obsidian-800 to-obsidian-900 border border-gold-500/50 rounded-2xl p-6 sm:p-8 max-w-md w-full relative shadow-[0_0_40px_rgba(212,175,55,0.25)]">
+            <button onclick="closeCoffeeModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-gold-500 text-2xl font-sans transition-colors">&times;</button>
+            <span id="modal-cat" class="block text-[11px] text-gold-500 tracking-[0.3em] font-sans uppercase mb-1">SELECCIÓN</span>
+            <h3 id="modal-title" class="text-2xl tracking-[0.2em] text-white font-serif mb-4">PRODUCTO</h3>
+            <div class="w-full h-px bg-gold-500/20 mb-5"></div>
+            
+            <h4 class="text-xs text-neutral-300 font-sans tracking-[0.2em] uppercase mb-3 font-semibold text-gold-400">¿De qué está hecho?</h4>
+            <ul id="modal-ingredients" class="space-y-2 font-sans text-xs text-neutral-300 mb-6">
+                <!-- Se llena mediante JS -->
+            </ul>
+
+            <div id="modal-notes" class="bg-obsidian-900/80 border-l-2 border-gold-500 p-3.5 rounded text-xs font-sans text-neutral-400 leading-relaxed">
+                <!-- Nota de preparación -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="w-full border-t border-gold-500/20 py-6 text-center bg-obsidian-900 font-sans text-xs text-neutral-500">
+        <p>&copy; 2026 Café Castilla. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Scripts de Navegación y Modal -->
+    <script>
+        const coffeeDetails = {
+            'dalgona': {
+                cat: 'SELECCIÓN 01',
+                title: 'CAFÉ DALGONA',
+                ingredients: [
+                    'Café artesanal granulado de origen arábico',
+                    'Azúcar morena orgánica',
+                    'Agua caliente de manantial',
+                    'Leche fresca de vaca (opción vegetal disponible)',
+                    'Hielo gourmet de baja densidad'
+                ],
+                notes: 'Batido vigorosamente hasta formar una crema dorada aterciopelada y densa, servida cuidadosamente sobre una base refrescante de leche con hielo.'
+            },
+            'sandwich-artesanal': {
+                cat: 'SELECCIÓN 02',
+                title: 'SÁNDWICH ARTESANAL',
+                ingredients: [
+                    'Pan ciabatta de masa madre recién horneado',
+                    'Jamón artesanal de pavo / jamón madurado',
+                    'Queso gouda fundido',
+                    'Rodajas de tomate fresco y lechuga hidropónica',
+                    'Pesto suave de albahaca y aceite de oliva'
+                ],
+                notes: 'Horneado y prensado al momento en prensa caliente para garantizar un pan crujiente por fuera, suave por dentro y un queso perfectamente derretido.'
+            },
+            'americano-helado': {
+                cat: 'SELECCIÓN 03',
+                title: 'AMERICANO HELADO',
+                ingredients: [
+                    'Shot doble de espresso 100% Arábico',
+                    'Agua purificada helada de filtro triple',
+                    'Cubos de hielo cristalino artesanal'
+                ],
+                notes: 'Bebida limpia e intensa que conserva la crema del espresso vertida sobre agua helada, resaltando las notas florales del grano.'
+            },
+            'cafe-con-leche': {
+                cat: 'SELECCIÓN 04',
+                title: 'CAFÉ CON LECHE',
+                ingredients: [
+                    'Shot de espresso concentrado de autor',
+                    'Leche vaporizada a temperatura óptima (65°C)',
+                    'Microespuma de leche sedosa'
+                ],
+                notes: 'Un balance armonioso donde la leche vaporizada abraza la intensidad del espresso, rematada con arte latte exclusivo en la superficie.'
+            },
+            'capuchino': {
+                cat: 'SELECCIÓN 05',
+                title: 'CAPUCHINO',
+                ingredients: [
+                    'Shot de espresso de cuerpo denso',
+                    'Leche entera de libre pastoreo',
+                    'Espuma de leche densa y sostenida',
+                    'Cacao fino de aroma en polvo (70%)'
+                ],
+                notes: 'Preparación clásica dividida en tres partes iguales: espresso, leche caliente y una generosa capa de espuma cremosa coronada con cacao en polvo.'
+            }
+        };
+
+        function switchTab(tabName) {
+            const tabs = ['inicio', 'carta', 'nosotros', 'contacto'];
+
+            tabs.forEach(tab => {
+                const contentEl = document.getElementById(`tab-${tab}`);
+                const navBtn = document.getElementById(`nav-${tab}`);
+
+                if (tab === tabName) {
+                    contentEl.classList.remove('hidden-tab');
+                    if (navBtn) {
+                        navBtn.classList.add('text-gold-500', 'border-b-2', 'border-gold-500');
+                        navBtn.classList.remove('text-neutral-400');
+                    }
+                } else {
+                    contentEl.classList.add('hidden-tab');
+                    if (navBtn) {
+                        navBtn.classList.remove('text-gold-500', 'border-b-2', 'border-gold-500');
+                        navBtn.classList.add('text-neutral-400');
+                    }
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        /* PORTADA */
+        function openCoffeeModal(coffeeKey) {
+            const item = coffeeDetails[coffeeKey];
+            if (!item) return;
 
-        .portada {
-            text-align: center;
-            padding: 70px 20px;
+            document.getElementById('modal-cat').textContent = item.cat;
+            document.getElementById('modal-title').textContent = item.title;
+            document.getElementById('modal-notes').textContent = item.notes;
+
+            const ingList = document.getElementById('modal-ingredients');
+            ingList.innerHTML = '';
+            item.ingredients.forEach(ing => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center gap-2';
+                li.innerHTML = `<span class="text-gold-500 font-bold">•</span> ${ing}`;
+                ingList.appendChild(li);
+            });
+
+            document.getElementById('modal-coffee').classList.add('active');
         }
 
-        .portada h2 {
-            font-size: clamp(38px, 5vw, 75px);
-            font-weight: normal;
-            line-height: 1.15;
+        function closeCoffeeModal() {
+            document.getElementById('modal-coffee').classList.remove('active');
         }
 
-        .portada span {
-            color: #ce955f;
-            font-style: italic;
+        function closeCoffeeModalOnOuter(e) {
+            if (e.target.id === 'modal-coffee') {
+                closeCoffeeModal();
+            }
         }
-
-        .boton {
-            display: inline-block;
-            margin-top: 35px;
-            padding: 20px 40px;
-            background-color: #75452a;
-            color: white;
-            border-radius: 35px;
-            text-decoration: none;
-        }
-
-        /* ESTADÍSTICAS */
-
-        .estadisticas {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            text-align: center;
-            gap: 15px;
-            padding: 40px 7%;
-        }
-
-        .estadisticas div {
-            border-right: 1px solid #ce955f;
-        }
-
-        .estadisticas div:last-child {
-            border-right: none;
-        }
-
-        .estadisticas h3 {
-            font-size: 55px;
-            font-weight: normal;
-        }
-
-        .estadisticas p {
-            font-size: 20px;
-        }
+    </script>
+</body>
+</html>

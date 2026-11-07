@@ -1,0 +1,48 @@
+body {
+    background-color: #0d0d0d; /* Negro muy oscuro */
+    color: #daa520; /* Color dorado para el texto principal */
+    font-family: 'Times New Roman', Times, serif; /* Fuente elegante */
+    text-align: center;
+    padding: 20px;
+}
+
+header h1 {
+    font-weight: normal;
+    letter-spacing: 2px;
+}
+
+header p {
+    color: #888; /* Gris para el subtítulo */
+}
+
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.coffee-card {
+    background: #1a1a1a; /* Fondo gris oscuro de la tarjeta */
+    border: 2px solid #daa520; /* Borde dorado */
+    padding: 15px;
+    width: 250px;
+    border-radius: 10px;
+}
+
+.coffee-card img.mask {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 10px;
+    /* Para recrear la forma de la imagen original, necesitarías máscaras SVG */
+    border-radius: 8px; /* Redondeado simple */
+}
+
+.coffee-card h3 {
+    margin: 10px 0 0;
+    font-size: 1.1rem;
+    font-weight: normal;
+}
